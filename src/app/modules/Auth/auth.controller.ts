@@ -5,7 +5,6 @@ import { AuthServices } from './auth.service';
 
 const createUser = catchAsync(async (req, res) => {
   const result = await AuthServices.createUserIntoDB(req.body);
-
   // send response
   sendResponse(res, {
     success: true,
@@ -15,6 +14,18 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
+const loginUser = catchAsync(async (req, res) => {
+  const result = await AuthServices.loginUser(req.body);
+  // send response
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User login successful',
+    data: result,
+  });
+});
+
 export const AuthControllers = {
   createUser,
+  loginUser,
 };
