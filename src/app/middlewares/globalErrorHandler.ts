@@ -7,13 +7,14 @@ import handleDuplicateError from '../errors/handleDuplicateError';
 import handleValidationError from '../errors/handleValidationError';
 import handleCastError from '../errors/handleCastError';
 import AppError from '../errors/AppError';
+import httpStatus from 'http-status';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   // here default values
   let statusCode = 500;
   let message = 'Internal server error!';
   let errorMessage = '';
-  let errorDetails = {};
+  let errorDetails = {} || null;
   // handle zod error
   if (err instanceof ZodError) {
     const handledError = handleZodError(err);
@@ -55,6 +56,15 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   //  handle default throw new Error
   else if (err instanceof Error) {
     message = err.message;
+  }
+
+  if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+    statusCode = httpStatus.UNAUTHORIZED;
+    message = 'Unauthorized Access';
+    errorMessage =
+      'You do not have the necessary permissions to access this resource.';
+    errorDetails = null;
+    err.stack = null;
   }
 
   //   send error response
