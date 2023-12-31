@@ -1,6 +1,6 @@
 ## Course Review Project
 
-- Live Link: https://l2b2a3-course-review.vercel.app
+- Live Link: https://l2b2a4-course-review-auth.vercel.app/
 
 - Postman Documentation link: https://documenter.getpostman.com/view/29000250/2s9YsDkaK6
 
