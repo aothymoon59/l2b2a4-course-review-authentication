@@ -41,6 +41,7 @@ const getCoursesFromDb = async (query: TQuery) => {
 
   const courses = await Course.find(filter)
     .populate('categoryId')
+    .populate('createdBy')
     .sort(sort)
     .skip(skip)
     .limit(limit);
