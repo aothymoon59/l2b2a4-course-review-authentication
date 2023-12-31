@@ -5,7 +5,10 @@ import { ReviewServices } from './review.service';
 import { TReview } from './review.interface';
 
 const createReview = catchAsync(async (req, res) => {
-  const result = await ReviewServices.createReviewIntoDb(req.body as TReview);
+  const result = await ReviewServices.createReviewIntoDb(
+    req?.user?._id,
+    req.body as TReview,
+  );
 
   // send response
   sendResponse(res, {
