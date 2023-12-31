@@ -8,6 +8,7 @@ import { TQuery } from '../../interface/query.interface';
 import makeQuery from '../../utils/makeQuery';
 import { Review } from '../Review/review.model';
 import { ObjectId } from 'mongodb';
+import { User } from '../User/user.model';
 
 // create course
 const createCourseIntoDB = async (userId: string, payload: TCourse) => {
@@ -164,11 +165,13 @@ const getBestCourseFromDb = async () => {
   ]).exec();
 
   const course = bestCourses[0];
-
+  const createdBy = await User.findById(course?.createdBy?.toString()).select(
+    'username email role',
+  );
   const bestCourse = {
-    course: { ...course },
     averageRating: parseFloat(course?.averageRating?.toFixed(1)),
     reviewCount: course?.reviewCount,
+    course: { ...course, createdBy },
   };
 
   delete bestCourse.course.reviews;
