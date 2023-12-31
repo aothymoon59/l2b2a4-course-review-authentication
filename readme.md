@@ -2,6 +2,23 @@
 
 - Live Link: https://l2b2a3-course-review.vercel.app
 
+- Postman Documentation link: https://documenter.getpostman.com/view/29000250/2s9YsDkaK6
+
+### User Registration
+
+- Method: POST
+- Endpoint: /api/auth/register
+
+### User Login
+
+- Method: POST
+- Endpoint: /api/auth/login
+
+### Change Password
+
+- Method: POST
+- Endpoint: /api/auth/change-password
+
 ### Create a Course
 
 - Method: POST
