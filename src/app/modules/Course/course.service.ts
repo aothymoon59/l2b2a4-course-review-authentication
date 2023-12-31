@@ -64,7 +64,7 @@ const updateCourseIntoDb = async (courseId: string, payload: TCourse) => {
     tags,
     ...remainingCourseData
   } = payload;
-  const course = await Course.findById(courseId);
+  const course = await Course.findById(courseId).populate('createdBy');
   if (!course) {
     return new AppError(httpStatus.BAD_REQUEST, 'Course not found');
   }
@@ -117,14 +117,17 @@ const updateCourseIntoDb = async (courseId: string, payload: TCourse) => {
 
   const result = await Course.findByIdAndUpdate(courseId, modifiedUpdatedData, {
     new: true,
-  });
+  }).populate('createdBy');
+
   return result;
 };
 
 // Get Course by ID with Reviews
 const getCourseAndReviewsFromDb = async (courseId: string) => {
-  const course = await Course.findById(courseId);
-  const reviews = await Review.find({ courseId: new ObjectId(courseId) });
+  const course = await Course.findById(courseId).populate('createdBy');
+  const reviews = await Review.find({
+    courseId: new ObjectId(courseId),
+  }).populate('createdBy');
 
   return { course, reviews };
 };
