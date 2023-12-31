@@ -10,7 +10,7 @@ import { Review } from '../Review/review.model';
 import { ObjectId } from 'mongodb';
 
 // create course
-const createCourseIntoDB = async (payload: TCourse) => {
+const createCourseIntoDB = async (userId: string, payload: TCourse) => {
   const course = await Course.findOne({ title: payload.title });
   if (course) {
     throw new AppError(
@@ -23,6 +23,10 @@ const createCourseIntoDB = async (payload: TCourse) => {
     payload.startDate,
     payload.endDate,
   );
+
+  // Convert userId to ObjectId
+  const createdByObjectId: ObjectId = new ObjectId(userId);
+  payload.createdBy = createdByObjectId;
 
   const result = await Course.create(payload);
   return result;
